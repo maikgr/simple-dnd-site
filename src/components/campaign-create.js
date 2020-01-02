@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import {
   Link
 } from "react-router-dom";
-import './createcampaign.css';
+import './campaign-create.css';
 
 class CreateCampaign extends React.Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class CreateCampaign extends React.Component {
             <ReactQuill
               value={ this.state.text }
               onChange={ this.handleChange } 
-              placeholder={'Tell a story'}
+              placeholder={ 'Tell a story' }
               />
           </div>
         </div>

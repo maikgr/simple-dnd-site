@@ -7,7 +7,7 @@ function ActiveCardActions() {
   return (
     <div className="row">
        <div className="col">
-        <Link to="/">View</Link>
+        <Link to="/campaigns/view/90391023">View</Link>
       </div>
       <div className="col">
         <Link to="/">End</Link>
@@ -73,7 +73,7 @@ function CampaignCard (props) {
   )
 }
 
-class Campaign extends React.Component {
+class CampaignList extends React.Component {
   render() {
     return (
       <div className="container parent"><div className="row header">
@@ -105,4 +105,4 @@ class Campaign extends React.Component {
   }
 }
 
-export default Campaign
+export default CampaignList

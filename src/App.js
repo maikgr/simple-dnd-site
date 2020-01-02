@@ -6,8 +6,8 @@ import {
   NavLink
 } from "react-router-dom";
 import './App.css';
-import Campaign from './components/mycampaigns';
-import CreateCampaign from './components/createcampaigns'
+import CampaignList from './components/campaign-list';
+import CreateCampaign from './components/campaign-create';
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
       </nav>
       <Switch>
         <Route exact path="/campaigns">
-          <Campaign />
+          <CampaignList />
         </Route>
         <Route exact path="/campaigns/create">
           <CreateCampaign />
