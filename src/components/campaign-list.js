@@ -2,105 +2,94 @@ import React from 'react'
 import {
   Link
 } from "react-router-dom";
+import { Container, Header, Icon, Divider, Card, Modal, Button, Input } from 'semantic-ui-react';
+import './campaign-list.css';
+import campaignService from './services/campaign-service';
 
-function ActiveCardActions() {
+function NewCampaignModal(props) {
+  const closeOnEscape = false;
+  const closeOnDimmerClick = false;
   return (
-    <div className="row">
-       <div className="col">
-        <Link to="/campaigns/view/90391023">View</Link>
-      </div>
-      <div className="col">
-        <Link to="/">End</Link>
-      </div>
-      <div className="col">
-        <Link to="/" className="text-danger">Delete</Link>
-      </div>
-    </div>
-  )
-}
-
-function InactiveCardActions() {
-  return (
-    <div className="row">
-      <div className="col">
-        <Link to="/">Resume</Link>
-      </div>
-      <div className="col">
-        <Link to="/" className="text-danger">Delete</Link>
-      </div>
-    </div>
-  )
-}
-
-function CampaignCard (props) {
-  let cardButtons;
-  if (props.isActive) {
-    cardButtons = ActiveCardActions();
-  }
-  else {
-    cardButtons = InactiveCardActions();
-  }
-
-  const date = props.isActive ? 'Started ' : 'Finished ';
-  
-  return (
-    <div className="row content">
-      <div className="col-3 campaign">
-        <div className="row">
-          <div className="col align-middle">
-            <h5>
-              <div>Campaign Title</div>
-              <small className="text-muted">{ date } 12/20/2019</small>
-            </h5>
-          </div>
-        </div>
-        
-        <div className="row">
-          <div className="col">
-            <div>0 Players</div>
-          </div>
-        </div>
-        
-        <div className="row">
-          <div className="col">
-            <div>Role: Dungeon Master</div>
-          </div>
-        </div>
-        
-        { cardButtons }
-      </div>
-    </div>
+    <Modal open={props.isOpen} size='tiny' closeOnEscape={closeOnEscape} closeOnDimmerClick={closeOnDimmerClick}>
+      <Modal.Header>Create your campaign</Modal.Header>
+      <Modal.Content>
+        <Input placeholder='Title' onChange={props.onChange} fluid/>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button basic color='grey'>
+          <Icon name='remove' onClick={props.onClose} /> Cancel
+        </Button>
+        <Button color='green' inverted>
+          <Icon name='checkmark' /> Create
+        </Button>
+      </Modal.Actions>
+    </Modal>
   )
 }
 
 class CampaignList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showNewCampaign: false,
+      newCampaignName: '',
+      campaigns: campaignService.getCampaigns()
+    };
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+  }
+
+  showModal() {
+    this.setState({
+      showNewCampaign: true
+    });
+  }
+
+  hideModal() {
+    this.setState({
+      showNewCampaign: false,
+      newCampaignName: ''
+    });
+  }
+
+  onValueChange(e) {
+    this.setState({
+      newCampaignName: e.target.value
+    })
+  }
+
   render() {
     return (
-      <div className="container parent"><div className="row header">
-        <div className="col">
-          <h2>My Campaigns</h2>
-          <div className="text-muted">Harnesses your imagination. Explore a fantastic world of adventure,
-          where heroes battle monsters, find treasures, and overcome epic quests!</div>
-        </div>
-      </div>
-      <div className="row content">
-        <div className="col">
-          <h3>Active Campaigns</h3>
-            <div className="text-muted">Your active campaigns are open to new players joining.</div>
-        </div>
-        <div className="col-2 fullbutton">
-          <Link className="btn btn-primary btn-block" to="/campaigns/create">New campaign</Link>
-        </div>
-      </div>
-      <CampaignCard isActive={ true } />
-      <div className="row content">
-        <div className="col">
-          <h3>Finished Campaigns</h3>
-            <div className="text-muted">Your finished campaigns are closed to new players joining.</div>
-        </div>
-      </div>
-      <CampaignCard isActive={ false } />
-      </div>
+      <Container style={{ marginTop: '7em' }}>
+        <Header>
+          <Icon name='book' />
+          <Header.Content>My Campaigns</Header.Content>
+          <Divider />
+        </Header>
+        <Card.Group itemsPerRow={4}>
+          {this.state.campaigns.map((camp, index) => {
+            let link = "/campaigns/view/" + camp.id;
+            return (
+              <Card as={Link} to={link} key={index}>
+                <Card.Content>
+                  <Card.Header>{camp.title}</Card.Header>
+                  <Card.Meta>Role: {camp.role}</Card.Meta>
+                  <Card.Description>{camp.description}</Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <Icon name='user' />
+                  {camp.players || 0} Players
+              </Card.Content>
+              </Card>)
+          })}
+          <Card centered onClick={this.showModal}>
+            <Card.Content className='center-content'>
+              <Icon color='grey' name='add' className='card-icon' />
+            </Card.Content>
+          </Card>
+        </Card.Group>
+        <NewCampaignModal isOpen={this.state.showNewCampaign} onChange={this.onValueChange} onClose={this.hideModal}/>
+      </Container>
     )
   }
 }

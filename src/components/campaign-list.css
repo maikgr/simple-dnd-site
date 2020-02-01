@@ -1,0 +1,12 @@
+.content.center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content .card-icon {    
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 8rem;
+  margin: 0;
+}
