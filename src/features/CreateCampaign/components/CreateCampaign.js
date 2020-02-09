@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import {
-  Link
-} from "react-router-dom";
-import './campaign-create.css';
+import { Link } from 'react-router-dom';
 
 class CreateCampaign extends React.Component {
   constructor(props) {
@@ -25,7 +22,9 @@ class CreateCampaign extends React.Component {
       <div className="container parent">
         <div className="row content">
           <div class="col-3">
-            <Link to="/campaigns" className="btn btn-primary">My Campaigns</Link>
+            <Link to="/campaigns" className="btn btn-primary">
+              My Campaigns
+            </Link>
           </div>
         </div>
 
@@ -38,7 +37,11 @@ class CreateCampaign extends React.Component {
         <div className="row content">
           <div class="col-3">
             <label>Campaign Name</label>
-            <input type="text" className="form-control" placeholder="Enter a name"/>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter a name"
+            />
           </div>
         </div>
 
@@ -46,21 +49,22 @@ class CreateCampaign extends React.Component {
           <div class="col">
             <label>Description</label>
             <ReactQuill
-              value={ this.state.text }
-              onChange={ this.handleChange } 
-              placeholder={ 'Tell a story' }
-              />
+              value={this.state.text}
+              onChange={this.handleChange}
+              placeholder="Tell a story"
+            />
           </div>
         </div>
 
         <div className="row content">
           <div class="col-3">
-            <button type="button" className="btn btn-success btn-block">Create</button>
+            <button type="button" className="btn btn-success btn-block">
+              Create
+            </button>
           </div>
         </div>
-
       </div>
-    )
+    );
   }
 }
 
